@@ -1,0 +1,6 @@
+{
+  "name": "ControlTerm — Control Semanal de Temperatura",
+  "description": "Aplicación offline para control semanal de planillas de temperatura por distritos y servicios, con reportes Excel/PDF, impresión y recordatorios por WhatsApp o correo.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
