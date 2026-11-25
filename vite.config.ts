@@ -7,7 +7,7 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 export default defineConfig(() => {
   return {
-    base: './',
+    base: '/CONTROL-DE-TEMPERATURA-SERVICIOS-PDTE-HAYES/',
     plugins: [
       react(),
       tailwindcss(),
