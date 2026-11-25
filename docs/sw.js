@@ -116,21 +116,6 @@ define(['./workbox-afac4cd2'], (function (workbox) { 'use strict';
     "url": "assets/html2canvas-DahTRw3F.js",
     "revision": null
   }, {
-    "url": "apple-touch-icon.png",
-    "revision": "03c2a4cd1253baab94682d816f7488b8"
-  }, {
-    "url": "icon.svg",
-    "revision": "e9882a86165b4046e747436c9eecdb99"
-  }, {
-    "url": "pwa-192x192.png",
-    "revision": "4d7124f793ad6eaff74a4d85ba387706"
-  }, {
-    "url": "pwa-512x512.png",
-    "revision": "e2bceaa1ede1123826b1e400cb9f60a6"
-  }, {
-    "url": "pwa-maskable-512x512.png",
-    "revision": "6daaa59d779cc823c3a88be33018444a"
-  }, {
     "url": "manifest.webmanifest",
     "revision": "445d9d7e64f75d0f63d9dc8d239cf862"
   }], {});
