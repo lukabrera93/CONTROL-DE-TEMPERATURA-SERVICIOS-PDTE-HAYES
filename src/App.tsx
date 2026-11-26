@@ -563,6 +563,17 @@ export default function App() {
               Descargar versión local Windows (.html) o respaldo cifrado
             </button>
           </div>
+          <div className="mt-2.5 flex flex-col gap-1 border-t border-slate-100 pt-2.5 text-[11px] text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <span>
+              © {new Date().getFullYear()} ControlTerm · Todos los derechos reservados.
+            </span>
+            <span>
+              Desarrollador:{' '}
+              <strong className="font-semibold text-slate-700">
+                Lucio Pastor Cabrera Olmedo
+              </strong>
+            </span>
+          </div>
         </footer>
 
         <OfflineBanner />

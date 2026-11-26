@@ -87,7 +87,7 @@ define(['./workbox-afac4cd2'], (function (workbox) { 'use strict';
     "revision": "4d7124f793ad6eaff74a4d85ba387706"
   }, {
     "url": "index.html",
-    "revision": "d08cf82b27f2fd3c77deba3a147d8474"
+    "revision": "dddd9c21212688f972550c8532198d29"
   }, {
     "url": "icon.svg",
     "revision": "e9882a86165b4046e747436c9eecdb99"
@@ -101,16 +101,16 @@ define(['./workbox-afac4cd2'], (function (workbox) { 'use strict';
     "url": "assets/purify.es-BQJV6A36.js",
     "revision": null
   }, {
-    "url": "assets/index.es-Dt6pNeHk.js",
+    "url": "assets/index.es-CBJ3KkkV.js",
     "revision": null
   }, {
-    "url": "assets/index-BgqyyvEf.js",
+    "url": "assets/index-Dm2lMxpH.js",
     "revision": null
   }, {
-    "url": "assets/index-9MI7ChSD.css",
+    "url": "assets/index-DEi7qVri.css",
     "revision": null
   }, {
-    "url": "assets/html2canvas-Cdpwk2Iq.js",
+    "url": "assets/html2canvas-CUDo8CGf.js",
     "revision": null
   }, {
     "url": "manifest.webmanifest",
