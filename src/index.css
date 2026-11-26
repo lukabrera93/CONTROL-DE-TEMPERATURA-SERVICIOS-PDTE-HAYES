@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-display: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
   --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
@@ -18,6 +20,191 @@
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  html.dark {
+    color-scheme: dark;
+    background-color: #090e1a;
+    color: #f1f5f9;
+  }
+
+  html.dark body {
+    background-color: #090e1a;
+    color: #f1f5f9;
+  }
+}
+
+/* Dark theme palette mapping for screen viewports (never affects A4 print) */
+@media screen {
+  html.dark .no-print.bg-slate-50 {
+    background-color: #090e1a;
+    color: #f1f5f9;
+  }
+
+  html.dark .no-print .bg-white {
+    background-color: #111827;
+  }
+
+  html.dark .no-print .bg-white\/80 {
+    background-color: rgba(17, 24, 39, 0.92);
+  }
+
+  html.dark .no-print .bg-slate-50 {
+    background-color: #0f172a;
+  }
+
+  html.dark .no-print .bg-slate-50\/70,
+  html.dark .no-print .bg-slate-50\/60 {
+    background-color: rgba(30, 41, 59, 0.72);
+  }
+
+  html.dark .no-print .bg-slate-100 {
+    background-color: #1e293b;
+  }
+
+  html.dark .no-print .bg-slate-900 {
+    background-color: #1e293b;
+  }
+
+  html.dark .no-print .hover\:bg-slate-800:hover {
+    background-color: #334155;
+  }
+
+  html.dark .no-print .hover\:bg-slate-50:hover,
+  html.dark .no-print .hover\:bg-slate-50\/60:hover,
+  html.dark .no-print .hover\:bg-slate-50\/70:hover,
+  html.dark .no-print .hover\:bg-slate-100:hover {
+    background-color: #1e293b;
+  }
+
+  html.dark .no-print .border-slate-200 {
+    border-color: #263244;
+  }
+
+  html.dark .no-print .border-slate-300 {
+    border-color: #334155;
+  }
+
+  html.dark .no-print .border-slate-100,
+  html.dark .no-print .divide-slate-100 > :not(:last-child) {
+    border-color: #1e293b;
+  }
+
+  html.dark .no-print .text-slate-900 {
+    color: #f8fafc;
+  }
+
+  html.dark .no-print .text-slate-800 {
+    color: #e2e8f0;
+  }
+
+  html.dark .no-print .text-slate-700 {
+    color: #cbd5e1;
+  }
+
+  html.dark .no-print .text-slate-600 {
+    color: #94a3b8;
+  }
+
+  html.dark .no-print .text-slate-500 {
+    color: #94a3b8;
+  }
+
+  html.dark .no-print .text-slate-400 {
+    color: #64748b;
+  }
+
+  html.dark .no-print .hover\:text-slate-900:hover,
+  html.dark .no-print .hover\:text-slate-800:hover {
+    color: #f8fafc;
+  }
+
+  html.dark .no-print .placeholder\:text-slate-400::placeholder {
+    color: #64748b;
+  }
+
+  html.dark .no-print .text-sky-700,
+  html.dark .no-print .text-sky-800 {
+    color: #38bdf8;
+  }
+
+  html.dark .no-print .bg-sky-50,
+  html.dark .no-print .bg-sky-50\/70,
+  html.dark .no-print .bg-sky-50\/60 {
+    background-color: rgba(14, 165, 233, 0.14);
+  }
+
+  html.dark .no-print .border-sky-200,
+  html.dark .no-print .border-sky-300 {
+    border-color: rgba(56, 189, 248, 0.35);
+  }
+
+  html.dark .no-print .hover\:bg-sky-50:hover,
+  html.dark .no-print .hover\:bg-sky-100:hover {
+    background-color: rgba(14, 165, 233, 0.22);
+  }
+
+  html.dark .no-print .text-emerald-700,
+  html.dark .no-print .text-emerald-800 {
+    color: #34d399;
+  }
+
+  html.dark .no-print .bg-emerald-50,
+  html.dark .no-print .bg-emerald-50\/70 {
+    background-color: rgba(16, 185, 129, 0.14);
+  }
+
+  html.dark .no-print .border-emerald-200,
+  html.dark .no-print .border-emerald-300 {
+    border-color: rgba(52, 211, 153, 0.35);
+  }
+
+  html.dark .no-print .hover\:bg-emerald-100:hover {
+    background-color: rgba(16, 185, 129, 0.24);
+  }
+
+  html.dark .no-print .text-amber-700,
+  html.dark .no-print .text-amber-900 {
+    color: #fbbf24;
+  }
+
+  html.dark .no-print .bg-amber-50 {
+    background-color: rgba(245, 158, 11, 0.14);
+  }
+
+  html.dark .no-print .border-amber-200,
+  html.dark .no-print .border-amber-300 {
+    border-color: rgba(251, 191, 36, 0.35);
+  }
+
+  html.dark .no-print .text-rose-700,
+  html.dark .no-print .text-rose-800 {
+    color: #fb7185;
+  }
+
+  html.dark .no-print .bg-rose-50 {
+    background-color: rgba(244, 63, 94, 0.14);
+  }
+
+  html.dark .no-print .border-rose-200,
+  html.dark .no-print .border-rose-300 {
+    border-color: rgba(251, 113, 133, 0.35);
+  }
+
+  html.dark .no-print .hover\:bg-rose-50:hover,
+  html.dark .no-print .hover\:bg-rose-100:hover {
+    background-color: rgba(244, 63, 94, 0.24);
+  }
+
+  /* Keep solid action buttons crisp white text */
+  html.dark .no-print .bg-sky-700 .text-white,
+  html.dark .no-print .bg-sky-700,
+  html.dark .no-print .bg-emerald-600,
+  html.dark .no-print .bg-emerald-700,
+  html.dark .no-print .bg-amber-600,
+  html.dark .no-print .bg-rose-600,
+  html.dark .no-print .bg-slate-900 {
+    color: #ffffff;
+  }
 }
 
 @media print {
@@ -26,9 +213,12 @@
     margin: 12mm;
   }
 
+  html,
+  html.dark,
   body {
     background: #ffffff !important;
     color: #0f172a !important;
+    color-scheme: light !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }

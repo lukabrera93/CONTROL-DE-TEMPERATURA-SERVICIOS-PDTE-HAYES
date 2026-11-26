@@ -6,8 +6,10 @@ import {
   FileSpreadsheet,
   FileText,
   Laptop,
+  Moon,
   Printer,
   Shield,
+  Sun,
 } from 'lucide-react';
 import { DashboardPanel } from './components/DashboardPanel';
 import {
@@ -47,6 +49,33 @@ export default function App() {
   const [selectedDistrictFilter, setSelectedDistrictFilter] = useState<string>('ALL');
   const [showBackupModal, setShowBackupModal] = useState(false);
   const [modalSection, setModalSection] = useState<ModalSection>('windows');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    try {
+      const saved = localStorage.getItem('controlterm_theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+    } catch {
+      // Ignore storage access errors
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem('controlterm_theme', theme);
+    } catch {
+      // Ignore storage access errors
+    }
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  }, []);
 
   const openModal = useCallback((section: ModalSection) => {
     setModalSection(section);
@@ -315,8 +344,35 @@ export default function App() {
               </button>
             </nav>
 
-            {/* Zone 3: Primary Action + Install button */}
-            <div className="flex items-center gap-2.5 shrink-0">
+            {/* Zone 3: Theme Toggle + Install button + Primary Action */}
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label={
+                  theme === 'dark'
+                    ? 'Cambiar a entorno claro'
+                    : 'Cambiar a entorno oscuro'
+                }
+                title={
+                  theme === 'dark'
+                    ? 'Cambiar a entorno claro'
+                    : 'Cambiar a entorno oscuro'
+                }
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50 whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <Sun className="h-3.5 w-3.5 text-amber-500" />
+                    <span className="hidden sm:inline">Claro</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon className="h-3.5 w-3.5 text-slate-600" />
+                    <span className="hidden sm:inline">Oscuro</span>
+                  </>
+                )}
+              </button>
               <PWAInstallButton />
               <button
                 type="button"
