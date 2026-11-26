@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ControlTerm — Redirigiendo...</title>
+    <script>
+      (function () {
+        var path = window.location.pathname || '/';
+        var target = '/CONTROL-DE-TEMPERATURA-SERVICIOS-PDTE-HAYES/';
+        if (path.indexOf(target) === 0) {
+          window.location.replace(target);
+        } else {
+          var parts = path.split('/').filter(Boolean);
+          window.location.replace(parts.length > 0 ? '/' + parts[0] + '/' : '/');
+        }
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

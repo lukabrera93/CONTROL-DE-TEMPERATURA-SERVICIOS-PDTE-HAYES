@@ -87,7 +87,7 @@ define(['./workbox-afac4cd2'], (function (workbox) { 'use strict';
     "revision": "4d7124f793ad6eaff74a4d85ba387706"
   }, {
     "url": "index.html",
-    "revision": "4bd3419d0012214aa77aafbeea3b010b"
+    "revision": "d08cf82b27f2fd3c77deba3a147d8474"
   }, {
     "url": "icon.svg",
     "revision": "e9882a86165b4046e747436c9eecdb99"
@@ -95,32 +95,31 @@ define(['./workbox-afac4cd2'], (function (workbox) { 'use strict';
     "url": "apple-touch-icon.png",
     "revision": "03c2a4cd1253baab94682d816f7488b8"
   }, {
-    "url": "ControlTerm_App_Completa.html",
-    "revision": "f4e4800a80be350179ff7f88a6a25896"
-  }, {
     "url": "assets/workbox-window.prod.es5-Bd17z0YL.js",
     "revision": null
   }, {
     "url": "assets/purify.es-BQJV6A36.js",
     "revision": null
   }, {
-    "url": "assets/index.es-DMt75w5s.js",
+    "url": "assets/index.es-Dt6pNeHk.js",
     "revision": null
   }, {
-    "url": "assets/index-CqHdFseN.js",
+    "url": "assets/index-BgqyyvEf.js",
     "revision": null
   }, {
     "url": "assets/index-9MI7ChSD.css",
     "revision": null
   }, {
-    "url": "assets/html2canvas-DahTRw3F.js",
+    "url": "assets/html2canvas-Cdpwk2Iq.js",
     "revision": null
   }, {
     "url": "manifest.webmanifest",
-    "revision": "445d9d7e64f75d0f63d9dc8d239cf862"
+    "revision": "19ee0bcdd3a0578b61fa0e99932be9a4"
   }], {});
   workbox.cleanupOutdatedCaches();
-  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html")));
+  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
+    denylist: [/ControlTerm_App_Completa\.html$/]
+  }));
   workbox.registerRoute(/^https:\/\/fonts\.googleapis\.com\/.*/i, new workbox.CacheFirst({
     "cacheName": "google-fonts-cache",
     plugins: [new workbox.ExpirationPlugin({

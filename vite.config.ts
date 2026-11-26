@@ -5,9 +5,18 @@ import path from 'path';
 import {defineConfig} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
 
-export default defineConfig(() => {
+const DEFAULT_GH_PAGES_BASE = '/CONTROL-DE-TEMPERATURA-SERVICIOS-PDTE-HAYES/';
+
+export default defineConfig(({command}) => {
+  const base =
+    command === 'serve'
+      ? '/'
+      : process.env.VITE_BASE_PATH || DEFAULT_GH_PAGES_BASE;
+
+  let resolvedOutDir = 'dist';
+
   return {
-    base: '/CONTROL-DE-TEMPERATURA-SERVICIOS-PDTE-HAYES/',
+    base,
     plugins: [
       react(),
       tailwindcss(),
@@ -15,7 +24,7 @@ export default defineConfig(() => {
         registerType: 'autoUpdate',
         includeManifestIcons: false,
         manifest: {
-          id: './',
+          id: base,
           name: 'ControlTerm — Control de Temperatura',
           short_name: 'ControlTerm',
           description:
@@ -23,8 +32,8 @@ export default defineConfig(() => {
           theme_color: '#0369A1',
           background_color: '#F8FAFC',
           display: 'standalone',
-          start_url: './',
-          scope: './',
+          start_url: base,
+          scope: base,
           icons: [
             {
               src: 'pwa-192x192.png',
@@ -49,6 +58,8 @@ export default defineConfig(() => {
         workbox: {
           maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
           globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+          globIgnores: ['**/ControlTerm_App_Completa.html', '**/404.html', '**/assets/aistudio/**'],
+          navigateFallbackDenylist: [/ControlTerm_App_Completa\.html$/],
           runtimeCaching: [
             {
               urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -81,18 +92,20 @@ export default defineConfig(() => {
           ],
         },
         devOptions: {
-          enabled: true,
-          type: 'module',
+          enabled: false,
         },
       }),
       {
         name: 'copy-unbundled-src-assets',
         apply: 'build',
+        configResolved(config) {
+          resolvedOutDir = config.build.outDir || 'dist';
+        },
         closeBundle(error?: Error): void {
           if (error) {
             return;
           }
-          const distDir = path.resolve(import.meta.dirname, 'dist');
+          const distDir = path.resolve(import.meta.dirname, resolvedOutDir);
           const srcAssets = path.resolve(import.meta.dirname, 'src/assets');
           const distAssets = path.resolve(distDir, 'src/assets');
           if (fs.existsSync(distDir) && fs.existsSync(srcAssets)) {

@@ -182,7 +182,7 @@ export const WeeklyChecklist: React.FC<WeeklyChecklistProps> = ({
     const base = getRecordReadings(rec).map((r) => ({ ...r }));
     if (!base[index]) return;
     base[index][field] = value;
-    commitReadings(serviceId, rec.status, base);
+    commitReadings(serviceId, rec.status || 'pending', base);
   };
 
   const handleToggleReadingAlert = (
@@ -193,7 +193,7 @@ export const WeeklyChecklist: React.FC<WeeklyChecklistProps> = ({
     const base = getRecordReadings(rec).map((r) => ({ ...r }));
     if (!base[index]) return;
     base[index].coldChainAlert = !base[index].coldChainAlert;
-    commitReadings(serviceId, rec.status, base);
+    commitReadings(serviceId, rec.status || 'pending', base);
   };
 
   const handleAddReading = (serviceId: string, rec: WeeklyRecord) => {
@@ -210,7 +210,7 @@ export const WeeklyChecklist: React.FC<WeeklyChecklistProps> = ({
       coldChainAlert: false,
       observation: '',
     });
-    commitReadings(serviceId, rec.status, base);
+    commitReadings(serviceId, rec.status || 'pending', base);
   };
 
   const handleRemoveReading = (
@@ -221,7 +221,7 @@ export const WeeklyChecklist: React.FC<WeeklyChecklistProps> = ({
     const base = getRecordReadings(rec);
     if (base.length <= 1) return;
     const nextReadings = base.filter((_, idx) => idx !== index);
-    commitReadings(serviceId, rec.status, nextReadings);
+    commitReadings(serviceId, rec.status || 'pending', nextReadings);
   };
 
   const openContactModal = (srv: ServiceItem, hint: string | null = null) => {
@@ -451,10 +451,12 @@ export const WeeklyChecklist: React.FC<WeeklyChecklistProps> = ({
                 {!isCollapsed && (
                   <div className="divide-y divide-slate-100">
                     {items.map((srv) => {
-                      const rec = weekData.records[srv.id] || {
-                        status: 'pending' as SubmissionStatus,
+                      const rawRec = weekData.records?.[srv.id];
+                      const status: SubmissionStatus = rawRec?.status || 'pending';
+                      const rec: WeeklyRecord = {
+                        ...(rawRec || {}),
+                        status,
                       };
-                      const status = rec.status;
                       const isLagging = status !== 'received';
 
                       return (

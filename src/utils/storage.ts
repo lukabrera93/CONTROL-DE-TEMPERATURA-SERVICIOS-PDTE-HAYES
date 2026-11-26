@@ -31,19 +31,23 @@ export function createDefaultDatabase(): AppDatabase {
 
 function openIDB(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
-    if (typeof indexedDB === 'undefined') {
-      reject(new Error('IndexedDB unavailable'));
-      return;
-    }
-    const req = indexedDB.open(IDB_NAME, 1);
-    req.onupgradeneeded = () => {
-      const db = req.result;
-      if (!db.objectStoreNames.contains(IDB_STORE)) {
-        db.createObjectStore(IDB_STORE);
+    try {
+      if (typeof indexedDB === 'undefined') {
+        reject(new Error('IndexedDB unavailable'));
+        return;
       }
-    };
-    req.onsuccess = () => resolve(req.result);
-    req.onerror = () => reject(req.error);
+      const req = indexedDB.open(IDB_NAME, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(IDB_STORE)) {
+          db.createObjectStore(IDB_STORE);
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
@@ -103,16 +107,42 @@ export async function loadDatabase(): Promise<AppDatabase> {
 function mergeWithDefaults(db: AppDatabase): AppDatabase {
   const defaults = createDefaultDatabase();
   const rawServices =
-    db.services && db.services.length > 0 ? db.services : defaults.services;
-  const services = rawServices.map((s) =>
-    s.name === 'PROVADO PARATODO' ? { ...s, name: 'PRIVADO PARATODO' } : s
-  );
+    Array.isArray(db.services) && db.services.length > 0
+      ? db.services.filter(
+          (s) => s && typeof s.id === 'string' && typeof s.name === 'string'
+        )
+      : defaults.services;
+  const services = (rawServices.length > 0 ? rawServices : defaults.services).map((s) => ({
+    ...s,
+    name: s.name === 'PROVADO PARATODO' ? 'PRIVADO PARATODO' : s.name,
+    district: typeof s.district === 'string' ? s.district : 'SIN DISTRITO',
+    active: s.active !== false,
+  }));
+
+  const safeWeeks: Record<string, WeekData> = {};
+  const rawWeeks =
+    db.weeks && typeof db.weeks === 'object' && !Array.isArray(db.weeks)
+      ? db.weeks
+      : defaults.weeks;
+  for (const [wk, w] of Object.entries(rawWeeks)) {
+    if (w && typeof w === 'object') {
+      safeWeeks[wk] = {
+        weekKey: typeof w.weekKey === 'string' ? w.weekKey : wk,
+        updatedAt: typeof w.updatedAt === 'string' ? w.updatedAt : new Date().toISOString(),
+        records:
+          w.records && typeof w.records === 'object' && !Array.isArray(w.records)
+            ? w.records
+            : {},
+      };
+    }
+  }
+
   return {
     version: db.version || 1,
     regionTitle: db.regionTitle || defaults.regionTitle,
     coordinatorName: db.coordinatorName || defaults.coordinatorName,
     services,
-    weeks: db.weeks || defaults.weeks,
+    weeks: Object.keys(safeWeeks).length > 0 ? safeWeeks : defaults.weeks,
     templates: {
       whatsappTemplate: db.templates?.whatsappTemplate || DEFAULT_TEMPLATES.whatsappTemplate,
       emailSubjectTemplate:

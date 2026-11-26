@@ -12,8 +12,17 @@ import {
 } from '../types/control';
 
 export function getRecordReadings(rec?: WeeklyRecord): ThermometerReading[] {
-  if (rec?.readings && rec.readings.length > 0) {
-    return rec.readings;
+  if (rec && Array.isArray(rec.readings) && rec.readings.length > 0) {
+    return rec.readings
+      .filter((r): r is ThermometerReading => Boolean(r && typeof r === 'object'))
+      .map((r, idx) => ({
+        id: r.id || `t-${idx + 1}`,
+        label: r.label,
+        minTemp: typeof r.minTemp === 'string' ? r.minTemp : '',
+        maxTemp: typeof r.maxTemp === 'string' ? r.maxTemp : '',
+        coldChainAlert: Boolean(r.coldChainAlert),
+        observation: typeof r.observation === 'string' ? r.observation : '',
+      }));
   }
   return [
     {
@@ -493,7 +502,8 @@ export function exportStandaloneOfflineHtml(db: AppDatabase, weekKey: string): v
       const tr = document.createElement("tr");
       const cls = r.status === "received" ? "st-received" : (r.status === "overdue" ? "st-overdue" : "st-pending");
       const lbl = r.status === "received" ? "Recibida" : (r.status === "overdue" ? "No envió" : "Pendiente");
-      tr.innerHTML = "<td>" + s.district + "</td><td><strong>" + s.name + "</strong></td><td class='" + cls + "'>" + lbl + "</td><td></td>";
+      const esc = (str) => String(str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+      tr.innerHTML = "<td>" + esc(s.district) + "</td><td><strong>" + esc(s.name) + "</strong></td><td class='" + cls + "'>" + lbl + "</td><td></td>";
       const tdSel = tr.children[2];
       const sel = document.createElement("select");
       sel.className = "no-print";
@@ -541,7 +551,9 @@ export async function exportFullLocalHtmlApp(
   weekKey: string
 ): Promise<'full' | 'snapshot'> {
   try {
-    const res = await fetch('./ControlTerm_App_Completa.html', { cache: 'no-store' });
+    const base = import.meta.env.BASE_URL || './';
+    const templateUrl = `${base.endsWith('/') ? base : `${base}/`}ControlTerm_App_Completa.html`;
+    const res = await fetch(templateUrl, { cache: 'no-store' });
     if (res.ok) {
       const templateHtml = await res.text();
       if (templateHtml.includes('<div id="root"></div>')) {

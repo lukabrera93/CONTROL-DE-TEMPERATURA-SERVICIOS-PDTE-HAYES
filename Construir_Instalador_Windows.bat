@@ -16,7 +16,7 @@ call npm install
 call npm install -D electron electron-builder
 
 echo [2/3] Compilando aplicacion web offline...
-call npm run build
+call npm run build:electron
 
 echo [3/3] Generando instalador ControlTerm-Setup.exe y version portable...
 call npx electron-builder --config electron-builder.json --win

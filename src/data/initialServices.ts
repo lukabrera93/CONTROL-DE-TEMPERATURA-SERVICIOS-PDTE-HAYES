@@ -99,8 +99,11 @@ export function toISODateLocal(date: Date): string {
 }
 
 export function parseISODateLocal(iso: string): Date {
-  const [y, m, d] = iso.split('-').map(Number);
-  return new Date(y, (m || 1) - 1, d || 1, 12, 0, 0);
+  const parts = String(iso || '').split('-').map(Number);
+  const y = Number.isFinite(parts[0]) && parts[0] > 1900 ? parts[0] : new Date().getFullYear();
+  const m = Number.isFinite(parts[1]) && parts[1] >= 1 && parts[1] <= 12 ? parts[1] : 1;
+  const d = Number.isFinite(parts[2]) && parts[2] >= 1 && parts[2] <= 31 ? parts[2] : 1;
+  return new Date(y, m - 1, d, 12, 0, 0);
 }
 
 /**

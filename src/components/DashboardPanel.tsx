@@ -117,7 +117,7 @@ export const DashboardPanel: React.FC<DashboardPanelProps> = ({
         return { weekKey: mk, label: formatShortMonday(mk), pct: 0, received: 0 };
       }
       const rec = activeServices.filter(
-        (s) => w.records[s.id]?.status === 'received'
+        (s) => w.records?.[s.id]?.status === 'received'
       ).length;
       return {
         weekKey: mk,

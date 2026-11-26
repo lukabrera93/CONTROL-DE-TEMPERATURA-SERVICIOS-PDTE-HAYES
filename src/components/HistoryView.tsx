@@ -108,7 +108,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
                     </td>
                     {mondays.map((mk) => {
                       const st: SubmissionStatus =
-                        db.weeks[mk]?.records[srv.id]?.status || 'pending';
+                        db.weeks?.[mk]?.records?.[srv.id]?.status || 'pending';
                       if (st === 'received') receivedTotal++;
                       return (
                         <td key={mk} className="px-2.5 py-2.5 text-center">
